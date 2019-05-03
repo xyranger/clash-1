@@ -4,9 +4,6 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 msgid "clash"
 msgstr "clash"
 
-msgid "Clash Client"
-msgstr "Clash 客户端"
-
 msgid "Server Configuration"
 msgstr "配置文件"
 
@@ -22,11 +19,11 @@ msgstr "启用"
 msgid "Enable Clash"
 msgstr "启用 Clash"
 
-msgid "DNS Server 1"
-msgstr "上游 DNS 服务器(国内)"
+msgid "DNS Servers located in China"
+msgstr "国内DNS服务器"
 
-msgid "DNS Server 2"
-msgstr "上游 DNS 服务器(国际)"
+msgid "DNS Servers located Overseas"
+msgstr "国外DNS服务器"
 
 msgid "Enable BBR"
 msgstr "启用 BBR"
@@ -114,3 +111,4 @@ msgstr "在服务器配置可以选择手动上载配置"
 
 msgid "Changes to config file must be made from source"
 msgstr "必须从源文件更改配置文件"
+
