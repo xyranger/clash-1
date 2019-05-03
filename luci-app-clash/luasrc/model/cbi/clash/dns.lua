@@ -21,41 +21,36 @@ dns.default = 1
 dns.rmempty = false
 dns.description = translate("Enable DNS Cache Acceleration and anti ISP DNS pollution")
 
-o = s:option(Value, "dnsserver", translate("DNS Server 1"))
-o.default = "114.114.114.114,114.114.115.115"
-o.description = translate("Multiple DNS server can saperate with ','")
+o = s:option(ListValue, "dnsserver", translate("Domestic DNS Server"))
+o.description = translate("DNS Servers located in China")
+o:value("114.114.114.114,114.114.115.115", translate("南京信风网络GreatbitDNS (114.114.114.114,114.114.115.115)"))
+o:value("223.5.5.5,223.6.6.6", translate("阿里云AliDNS (223.5.5.5,223.6.6.6)"))
+o:value("1.2.4.8", translate("中国互联网络SecureDNS (1.2.4.8)"))
+o:value("119.29.29.29", translate("烟台帝思普网络BPG DNS (119.29.29.29)"))
 o:depends("dns", 1)
 
-o = s:option(Value, "dnsserver_d", translate("DNS Server 2"))
-o.default = "208.67.222.222,208.67.220.220"
-o.description = translate("Multiple DNS server can saperate with ','")
+o = s:option(ListValue, "dnsserver_d", translate("Global DNS Server"))
+o.description = translate("DNS Servers located Overseas")
+o:value("208.67.222.222,208.67.220.220", translate("OpenDNS (208.67.222.222,208.67.220.220)"))
+o:value("8.8.4.4,8.8.8.8", translate("Google Public DNS (8.8.4.4,8.8.8.8)"))
+o:value("209.244.0.3,209.244.0.4", translate("Level 3 Public DNS (209.244.0.3209.244.0.4)"))
+o:value("4.2.2.1,4.2.2.2,4.2.2.3,4.2.2.4", translate("Level 3 Public DNS (4.2.2.1,4.2.2.2,4.2.2.3,4.2.2.4)"))
+o:value("1.1.1.1", translate("Cloudflare DNS (1.1.1.1)"))
 o:depends("dns", 1)
 
-o = s:option(Value, "pdnsd")
-o.title = translate("* Dns Resolver Port 1")
-o.default = 5353
-o.datatype = "port"
-o.rmempty = false
-o.description = translate("Make sure port 5353 is free or resolver cannot start")
 
-o = s:option(Value, "dnscache")
-o.title = translate("* Dns Resolver Port 2")
-o.default = 5333
-o.datatype = "port"
+o = s:option(Value, "dns_server_d")
+o.title = translate("* Domestic DNS Fowarder")
+o.default = "127.0.0.1#5333"
 o.rmempty = false
-o.description = translate("Make sure port 5333 is free or resolver cannot start")
+o.description = translate("Domestic DNS Server Fowarder")
 
 
 o = s:option(Value, "dns_server")
-o.title = translate("* Dns Fowarder 1")
+o.title = translate("* Global DNS Fowarder")
 o.default = "127.0.0.1#5353"
 o.rmempty = false
-o.description = translate("DNS Server port must be the same as Dns Resolver Port 1 clash nameserver: - 127.0.0.1:5353")
+o.description = translate("Global DNS Server Fowarder")
 
-o = s:option(Value, "dns_server_d")
-o.title = translate("* Dns Fowarder 2")
-o.default = "127.0.0.1#5353"
-o.rmempty = false
-o.description = translate("DNS Server port must be the same as Dns Resolver Port 2 clash nameserver: - 127.0.0.1:5333")
 
 return m
