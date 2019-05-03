@@ -15,20 +15,27 @@ A rule based custom proxy for OpenWrt based on <a href="https://github.com/Dream
         <img src="https://img.shields.io/badge/Clash-v0.13.0-orange.svg"/>
     </a>
 </p>
-## Features
+# Features
 
 - Support Vmess/Shadowsocks/Socks5
 - Support Shadowsocks-V2ray-plugin
 - Support Shadowsocks-Obfs-plugin
 - HTTP/HTTPS and SOCKS protocol
-- Support Rule such as HOST, HOST-SUFFIX, HOST-KEYWORD, GEOIP, USER-AGENT and IP-CIDR
+- Support Custom Rule
 <br>
 
+# Contibutors
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/x.png" /></div>
+- <a href="https://github.com/vernesong"  target="_blank">
+        vernesong
+    </a>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/cvv2.png" /></div>
+<br>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/cvv3.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc1.png" /></div>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/cvv4.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc2.png" /></div>
+
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc3.png" /></div>
+
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc4.png" /></div>
