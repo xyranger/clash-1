@@ -46,12 +46,6 @@ msgstr "Clash 客户端"
 msgid "DNS Settings"
 msgstr "DNS 设置"
 
-msgid "Stop Client"
-msgstr "停止 Clash"
-
-msgid "Start Client"
-msgstr "启动 Clash"
-
 msgid "Server Config"
 msgstr "服务器配置"
 
@@ -64,23 +58,20 @@ msgstr "注意：上传之前，请将配置文件重命名为config.yml。文�
 msgid "Enable DNS Cache Acceleration and anti ISP DNS pollution"
 msgstr "启用DNS多线程查询、缓存，并防止ISP的DNS广告和域名劫持"
 
-msgid "Multiple DNS server can saperate with ','"
-msgstr "支持多个上游DNS服务器，用','分隔（注意用英文逗号).请填写您最快的DNS服务器"
+msgid "Domestic DNS Server"
+msgstr "国内上游DNS服务器"
+
+msgid "Global DNS Server"
+msgstr "国外上游DNS服务器"
 
 msgid "* Clash Redir Port"
 msgstr "* 转发端口"
 
-msgid "* Dns Resolver Port 1"
-msgstr "* 代理dns端口 1"
+msgid "* Domestic DNS Fowarder"
+msgstr "* 国内代理dns服务器"
 
-msgid "* Dns Resolver Port 2"
-msgstr "* 代理dns端口 2"
-
-msgid "* Dns Fowarder 1"
-msgstr "* 代理dns服务器 1"
-
-msgid "* Dns Fowarder 2"
-msgstr "* 代理dns服务器 2"
+msgid "* Global DNS Fowarder"
+msgstr "* 国外代理dns服务器"
 
 msgid "Subcription Url"
 msgstr "订阅URL"
@@ -103,17 +94,11 @@ msgstr "运行后，等待服务器传播"
 msgid "Clash config redir-port: 7892"
 msgstr "转发端口：7892"
 
-msgid "Make sure port 5353 is free or resolver cannot start"
-msgstr "确保端口5353可用或PDNSD解析器无法启动"
+msgid "Domestic DNS Server Fowarder"
+msgstr "国内DNS代理服务器地址"
 
-msgid "Make sure port 5333 is free or resolver cannot start"
-msgstr "确保端口5333可用或PDNSD解析器无法启动"
-
-msgid "DNS Server port must be the same as Dns Resolver Port 1 clash nameserver: - 127.0.0.1:5353"
-msgstr "DNS服务器端口必须与代理dns端口 1 5353相同，clash名称服务器：-127.0.0.1:5353"
-
-msgid "DNS Server port must be the same as Dns Resolver Port 2 clash nameserver: - 127.0.0.1:5333"
-msgstr "DNS服务器端口必须与代理dns端口 2 5333相同，clash名称服务器：-127.0.0.1:5333"
+msgid "Global DNS Server Fowarder"
+msgstr "国外DNS代理服务器地址"
 
 msgid "Server Subscription Address"
 msgstr "服务器订阅地址"

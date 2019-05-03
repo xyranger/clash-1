@@ -12,7 +12,7 @@ fi
 
 if [ $enable -eq 0 ]; then
 	if  pidof clash>/dev/null; then
-	   /etc/init.d/clash stop 
+	   /etc/init.d/clash stop >/dev/null 2>&1
   fi
 fi
 
