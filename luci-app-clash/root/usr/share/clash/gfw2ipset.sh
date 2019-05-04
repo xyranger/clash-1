@@ -1,6 +1,0 @@
-#!/bin/sh
-
-pdnsd_listen_port1=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
-awk '!/^$/&&!/^#/{printf("ipset=/.%s/'"gfwlist"'\n",$0)}' /etc/config/gfw.list > /etc/clash/custom_forward.conf
-awk '!/^$/&&!/^#/{printf("server=/.%s/'"127.0.0.1#$pdnsd_listen_port1"'\n",$0)}' /etc/config/gfw.list >> /etc/clash/custom_forward.conf
-
