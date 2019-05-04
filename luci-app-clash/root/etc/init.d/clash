@@ -16,9 +16,6 @@ PDNSD_BIN="/var/sbin/dnscache"
 pdnsd_genconfig() {
 
   DNS_SERVER=$(uci get clash.config.dnsserver 2>/dev/null)
-  dnsserver_d=$(uci get clash.config.dnsserver_d 2>/dev/null)
- 
-  pdnsd_listen_port1=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
   pdnsd_listen_port2=$(uci get clash.config.dns_server_d |awk -F '#' '{print $2}' 2>/dev/null)
 	[ -d /var/etc ] || mkdir -p /var/etc
 
@@ -109,80 +106,15 @@ server {
         249.129.46.48,  
         253.157.14.165;  
     reject_policy = fail;  
-    exclude = ".bing.com",
-                ".tumblr.com",
-                ".cdninstagram.com",
-                ".instagram.com",
-                ".facebook.com",
-                ".soundcloud.com",
-                ".live.com",
-		".91smartyun.pt",
-                ".adobe.com",
-                ".amazonaws.com",
-                ".ampproject.org",
-                ".apple.news",
-                ".aws.amazon.com",
-                ".azureedge.net",
-                ".backpackers.com.tw",
-                ".bitfinex.com",
-                ".buzzfeed.com",
-                ".clockwise.ee",
-                ".cloudfront.net",
-                ".coindesk.com",
-                ".coinsquare.io",
-                ".cryptocompare.com",
-                ".dropboxstatic.com",
-                ".eurecom.fr",
-                ".gdax.com",
-                ".github.com",
-                ".isnssdk.com",
-                ".kknews.cc",
-                ".nutaq.com",
-                ".openairinterface.org",
-                ".skype.com",
-                ".snssdk.com",
-                ".sublimetext.com",
-                ".textnow.com",
-                ".textnow.me",
-                ".trouter.io",
-                ".uploaded.net",
-                ".whatsapp.com",
-                ".whatsapp.net",
-                ".wsj.net",
-                ".google.com",
-                ".google.com.hk",
-		".google.com.jp",
-		".google.com.tw",
-                ".gstatic.com",
-                ".googleusercontent.com",
-                ".googlepages.com",
-                ".googlevideo.com",
-                ".googlecode.com",
-                ".googleapis.com",
-                ".googlesource.com",
-                ".googledrive.com",
-                ".ggpht.com",
-                ".youtube.com",
-                ".youtu.be",
-                ".ytimg.com",
-                ".twitter.com",
-                ".facebook.com",
-                ".fastly.net",
-                ".akamai.net",
-                ".akamaiedge.net",
-                ".akamaihd.net",
-                ".edgesuite.net",
-                ".edgekey.net",
-                ".onedrive.live.com";
+    
 }
 
 server {  
     label = "special";                  
     ip = $dnsserver_d; 
-    port = $pdnsd_listen_port1;                        
+    port = $dnsserver_p;                        
     proxy_only = on;
     timeout = 5;	
-    proxy_only = on;
 }
 
 
@@ -211,7 +143,6 @@ EOF
 
 start_pdnsd() {
   pdnsd_listen_port1=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
-  dnsserver_d=$(uci get clash.config.dnsserver_d 2>/dev/null)
   local usr_dns="$1"
   local usr_port="$2"
   
@@ -237,6 +168,7 @@ global {
 	server_port = $pdnsd_listen_port1;
 	status_ctl = on;
 	query_method = tcp_only;
+	par_queries = 400; 
 	min_ttl=1h;
 	max_ttl=1w;
 	timeout=10;
@@ -248,7 +180,7 @@ global {
 server {
 	label= "v2-pdnsd";
 	ip = $dnsserver_d;
-	port = $pdnsd_listen_port1;
+	port = $dnsserver_p;
 	timeout=5;
 	uptest=none;
 	interval=10m;
@@ -276,12 +208,14 @@ EOF
 
 change_dns(){
 dns_server=$(uci get clash.config.dns_server 2>/dev/null)
-dns_server_d=$(uci get clash.config.dns_server_d 2>/dev/null)
+
 	uci del dhcp.@dnsmasq[-1].server
-	uci add_list dhcp.@dnsmasq[0].server=$dns_server_d
-	uci add_list dhcp.@dnsmasq[0].server=$dns_server
-	uci delete dhcp.@dnsmasq[0].resolvfile
-	uci set dhcp.@dnsmasq[0].noresolv=1
+	if [ "$dns_model" == "white" ]; then
+	   uci add_list dhcp.@dnsmasq[0].server=$dns_server
+	   uci delete dhcp.@dnsmasq[0].resolvfile
+   	 uci set dhcp.@dnsmasq[0].noresolv=1
+	fi
+	
 	uci commit dhcp
 }
 
@@ -327,44 +261,83 @@ get_dnsmasq() {
 dns_poisoning() {
 	local gfw_list=/etc/clash/dnsmasq_gfwlist.conf
 	local gfw_list_tmp=$dnsmasq_confdir/dnsmasq_gfwlist.conf
+	local custom_forward_list=/etc/clash/custom_forward.conf
+	local custom_forward_list_tmp=$dnsmasq_confdir/custom_forward.conf
+	local oversea_list=/etc/clash/oversea_list.conf
+	local oversea_list_tmp=$dnsmasq_confdir/oversea_list.conf
+   
+	if [ "$dns_model" == "black" ]; then
+	   gfw_list_port=`grep google.co.jp /etc/clash/dnsmasq_gfwlist.conf |awk -F '#' '{print $2}'`
+	   if [ "$pdnsd_listen_port1" != "$gfw_list_port" ]; then
+	      sed -i "s/#${gfw_list_port}/#${pdnsd_listen_port1}/g" /etc/clash/dnsmasq_gfwlist.conf
+	   fi
+     [ ! -f $gfw_list_tmp ] && {
+		 ln -s $gfw_list $gfw_list_tmp
+		 ln -s $custom_forward_list $custom_forward_list_tmp
+		 }
+	else
+	   oversea_list_port=`grep v.youku.com /etc/clash/oversea_list.conf |awk -F '#' '{print $2}'`
+	   if [ "$pdnsd_listen_port2" != "$oversea_list_port" ]; then
+	      sed -i "s/#${oversea_list_port}/#${pdnsd_listen_port2}/g" /etc/clash/oversea_list.conf
+	   fi
+	   [ ! -f $oversea_list_tmp ] && {
+		 ln -s $oversea_list $oversea_list_tmp
+		 }
+	fi
 	
-			
-	[ ! -f $gfw_list_tmp ] && {
-		ln -s $gfw_list $gfw_list_tmp
-	}	
 }
 
 
 yml_change(){
-	proxy_port=$(uci get clash.config.proxy_port 2>/dev/null)
-	redir_port=`grep redir-port: /etc/clash/config.yml |awk -F ' ' '{print $2}'`
-	if [ -z $redir_port]; then
-	   sed -i "2i\redir-port: ${proxy_port}" /etc/clash/config.yml
-	else
-	      sed -i '/redir-port:/ d' /etc/clash/config.yml
-	      sed -i "2i\redir-port: ${proxy_port}" /etc/clash/config.yml
-	fi
-	se_password=`grep secret: /etc/clash/config.yml`
-	if [ -z $se_password ]; then
-	    sed -i '3i\secret: ""' /etc/clash/config.yml
-	fi
+
+	sed -i '/redir-port:/ d' /etc/clash/config.yml 2>/dev/null
+	sed -i "2i\redir-port: ${proxy_port}" /etc/clash/config.yml
+
+	da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
+	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
+	sed -i "3i\secret: '${da_password}'" /etc/clash/config.yml
+
 	grep dns: /etc/clash/config.yml
 	if [ "$?" -ne "0" ]; then
    	 sed -i "/Proxy:/i\dns:" /etc/clash/config.yml
    	 sed -i "/dns:/a\  enable: true" /etc/clash/config.yml
-         sed -i "/enable: true/a\  ipv6: false" /etc/clash/config.yml
-         sed -i "/ipv6: false/a\  listen: 0.0.0.0:7874" /etc/clash/config.yml
-         sed -i "/listen: 0.0.0.0:7874/a\  enhanced-mode: redir-host" /etc/clash/config.yml
-         sed -i "/enhanced-mode: redir-host/a\  nameserver:" /etc/clash/config.yml
-         sed -i "/nameserver:/a\  - 114.114.114.114" /etc/clash/config.yml
-         sed -i "/114.114.114.114/a\  - 119.29.29.29" /etc/clash/config.yml
-         sed -i "/119.29.29.29/a\  - 223.5.5.5" /etc/clash/config.yml
-         sed -i "/223.5.5.5/a\  fallback:" /etc/clash/config.yml
-         sed -i "/fallback:/a\  - tls://dns.rubyfish.cn:853" /etc/clash/config.yml
-         sed -i "/dns.rubyfish.cn:853/a\  - tls://1.1.1.1:853" /etc/clash/config.yml
-         sed -i "/1.1.1.1:853/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
-         sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml
+     sed -i "/enable: true/a\  ipv6: false" /etc/clash/config.yml
+     sed -i "/ipv6: false/a\  listen: 0.0.0.0:7874" /etc/clash/config.yml
+     sed -i "/listen: 0.0.0.0:7874/a\  enhanced-mode: redir-host" /etc/clash/config.yml
+     sed -i "/enhanced-mode: redir-host/a\  nameserver:" /etc/clash/config.yml
+     sed -i "/nameserver:/a\  - 114.114.114.114" /etc/clash/config.yml
+     sed -i "/114.114.114.114/a\  - 119.29.29.29" /etc/clash/config.yml
+     sed -i "/119.29.29.29/a\  - 223.5.5.5" /etc/clash/config.yml
+     sed -i "/223.5.5.5/a\  fallback:" /etc/clash/config.yml
+     sed -i "/fallback:/a\  - tls://dns.rubyfish.cn:853" /etc/clash/config.yml
+     sed -i "/dns.rubyfish.cn:853/a\  - tls://1.1.1.1:853" /etc/clash/config.yml
+     sed -i "/1.1.1.1:853/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
+     sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml
+  else
+     if [ $dns -ne 1 ];  then
+        grep fallback: /etc/clash/config.yml
+        if [ "$?" -ne "0" ]; then
+           sed -i "/Proxy:/i\  fallback:" /etc/clash/config.yml
+           sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
+           sed -i "/208.67.222.222:443/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+        else
+           grep tcp://208.67.222.222:443 /etc/clash/config.yml
+           if [ "$?" -ne "0" ]; then
+              sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
+              grep tcp://1.1.1.1:53 /etc/clash/config.yml
+              if [ "$?" -ne "0" ]; then
+                 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+              fi
+           else
+              grep tcp://1.1.1.1:53 /etc/clash/config.yml
+              if [ "$?" -ne "0" ]; then
+                 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+              fi
+           fi
         fi
+     fi
+  fi
+  
 	allow_lan=`grep allow-lan: /etc/clash/config.yml |awk -F ' ' '{print $2}'`
 	allow_lan_r=$(echo $allow_lan |tr   [a-z]   [A-Z]) 
 	if [ $allow_lan_r == "FALSE" ]; then
@@ -414,12 +387,15 @@ if [ $enable -eq 1 ]; then
 
 	  
 	if [ $dns -eq 1 ];  then
+	  dnsserver_d=$(uci get clash.config.dnsserver_d|awk -F ':' '{print $1}' 2>/dev/null)
+    dnsserver_p=$(uci get clash.config.dnsserver_d|awk -F ':' '{print $2}' 2>/dev/null)
 		pdnsd_genconfig		
 		procd_open_instance
 		procd_set_param command "$PDNSD_BIN" -c /var/etc/dnscache.conf
 		procd_set_param respawn
 		procd_set_param stderr 1
 		procd_close_instance
+		dns_model=$(uci get clash.config.dnsmodel 2>/dev/null)
 		change_dns
 		start_pdnsd
 		dnsmasq_confdir=$(get_dnsmasq)
@@ -491,12 +467,11 @@ stop_service(){
     uci commit firewall
 	
 	/etc/init.d/firewall restart >/dev/null 2>&1
-	
-
-    /etc/init.d/dnsmasq restart >/dev/null 2>&1
 
 	dnsmasq_confdir=$(get_dnsmasq)
-	rm -rf $dnsmasq_confdir/dnsmasq_gfwlist.conf
+	rm -rf $dnsmasq_confdir/dnsmasq_gfwlist.conf >/dev/null 2>&1
+	rm -rf $dnsmasq_confdir/custom_forward.conf >/dev/null 2>&1
+	rm -rf $dnsmasq_confdir/oversea_list.conf >/dev/null 2>&1
 	
     /etc/init.d/dnsmasq restart >/dev/null 2>&1
 
