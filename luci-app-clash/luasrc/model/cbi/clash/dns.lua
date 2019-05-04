@@ -52,5 +52,5 @@ o.default = "127.0.0.1#5353"
 o.rmempty = false
 o.description = translate("Global DNS Server Fowarder")
 
-
 return m
+
