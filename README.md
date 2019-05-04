@@ -24,7 +24,7 @@ A rule based custom proxy for OpenWrt based on <a href="https://github.com/Dream
 - Support Custom Rule
 <br>
 
-# Contibutors
+# Contributors
 
 - <a href="https://github.com/vernesong"  target="_blank">
         vernesong
