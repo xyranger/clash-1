@@ -1,4 +1,4 @@
---
+
 local NXFS = require "nixio.fs"
 local SYS  = require "luci.sys"
 local HTTP = require "luci.http"
@@ -12,13 +12,11 @@ s = m:section(TypedSection, "clash")
 s.anonymous = true
 
 
-
 o = s:option( Flag, "enable")
 o.title = translate("Enable Clash")
 o.default = 0
 o.rmempty = false
 o.description = translate("After clash start running, wait a moment for servers to resolve,enjoy")
-
 
 
 o = s:option(Value, "proxy_port")
@@ -28,6 +26,11 @@ o.datatype = "port"
 o.rmempty = false
 o.description = translate("Clash config redir-port: 7892")
 
+o = s:option(Value, "dashboard_password")
+o.title = translate("Dashboard Login password")
+o.default = 123456
+o.rmempty = false
+o.description = translate("Dashboard Login password")
 
 o = s:option(Flag, "auto_update", translate("Auto Update"))
 o.rmempty = false
@@ -65,4 +68,5 @@ end
 
 
 return m
+
 
