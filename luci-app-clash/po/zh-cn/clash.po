@@ -4,6 +4,9 @@ msgstr "Content-Type: text/plain; charset=UTF-8\n"
 msgid "clash"
 msgstr "clash"
 
+msgid "Clash Client"
+msgstr "Clash 客户端"
+
 msgid "Server Configuration"
 msgstr "配置文件"
 
@@ -19,26 +22,24 @@ msgstr "启用"
 msgid "Enable Clash"
 msgstr "启用 Clash"
 
-msgid "DNS Servers located in China"
-msgstr "国内DNS服务器"
+msgid "DNS Server 1"
+msgstr "上游 DNS 服务器(国内)"
 
-msgid "DNS Servers located Overseas"
-msgstr "国外DNS服务器"
+msgid "DNS Server 2"
+msgstr "上游 DNS 服务器(国际)"
 
 msgid "Enable BBR"
 msgstr "启用 BBR"
 
 msgid "Bottleneck Bandwidth and Round-trip propagation time (BBR)"
-msgstr "BBR拥塞控制算法可以加强TCP应用表现，但会降低路由器本机上的WIFI吞吐性能"
+msgstr ""
+"BBR拥塞控制算法可以加强TCP应用表现，但会降低路由器本机上的WIFI吞吐性能"
 
 msgid "Enable DNS"
 msgstr "启用 DNS 加速"
 
 msgid "DNS Acceleration & Forwarder"
 msgstr "DNS 加速 & 代理"
-
-msgid "Clash Client"
-msgstr "Clash 客户端"
 
 msgid "DNS Settings"
 msgstr "DNS 设置"
@@ -49,8 +50,11 @@ msgstr "服务器配置"
 msgid "Upload Clash Configuration"
 msgstr "上传 Clash 配置"
 
-msgid "NB: Rename your config file to config.yml before upload. file will save to /etc/clash"
-msgstr "注意：上传之前，请将配置文件重命名为config.yml。文件将保存到 /etc/clash"
+msgid ""
+"NB: Rename your config file to config.yml before upload. file will save to /"
+"etc/clash"
+msgstr ""
+"注意：上传之前，请将配置文件重命名为config.yml。文件将保存到 /etc/clash"
 
 msgid "Enable DNS Cache Acceleration and anti ISP DNS pollution"
 msgstr "启用DNS多线程查询、缓存，并防止ISP的DNS广告和域名劫持"
@@ -65,10 +69,10 @@ msgid "* Clash Redir Port"
 msgstr "* 转发端口"
 
 msgid "* Domestic DNS Fowarder"
-msgstr "* 国内代理dns服务器"
+msgstr "* 国内代理DNS服务器"
 
 msgid "* Global DNS Fowarder"
-msgstr "* 国外代理dns服务器"
+msgstr "* 国外代理DNS服务器"
 
 msgid "Subcription Url"
 msgstr "订阅URL"
@@ -112,3 +116,29 @@ msgstr "在服务器配置可以选择手动上载配置"
 msgid "Changes to config file must be made from source"
 msgstr "必须从源文件更改配置文件"
 
+msgid "DNS Servers located in China"
+msgstr "选择国内上游DNS服务器"
+
+msgid "DNS Servers located Overseas"
+msgstr "选择国外上游DNS服务器"
+
+msgid "Dashboard Login password"
+msgstr "Dashboard登录密码"
+
+msgid "self_difined gfw_list"
+msgstr "添加自定义GFW地址"
+
+msgid "Please modify the file here."
+msgstr "填写时请按照模板格式"
+
+msgid "Apply Modify List"
+msgstr "应用自定义GFW列表"
+
+msgid "Choose DNS Resolve Model"
+msgstr "运行模式"
+
+msgid "Choose DNS Resolve With White or Black List Model"
+msgstr "选择DNS解析模式"
+
+msgid "Update GFW List"
+msgstr "更新GFW列表"
