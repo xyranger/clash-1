@@ -32,13 +32,13 @@ A rule based custom proxy for OpenWrt based on <a href="https://github.com/Dream
 
 <br>
 <h3>USE CUSTOM DNS TO RESOLVE CLASH</H3> 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/1.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/0.png" /></div>
 
 <div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/6.png" /></div>
 
 <h3>USE CLASH NAMESERVER DNS TO RESOLVE CLASH</H3> 
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/7.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/9.png" /></div>
 
 <div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/8.png" /></div>
 
