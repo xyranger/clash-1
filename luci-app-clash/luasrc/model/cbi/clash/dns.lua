@@ -45,19 +45,6 @@ o:value("1.1.1.1", translate("Cloudflare DNS (1.1.1.1)"))
 o:depends("dns", 1)
 
 
-o = s:option(Value, "dns_server_d")
-o.title = translate("* Domestic DNS Fowarder")
-o.default = "127.0.0.1#5333"
-o.description = translate("Domestic DNS Server Fowarder")
-o:depends("dns", 1)
-
-o = s:option(Value, "dns_server")
-o.title = translate("* Global DNS Fowarder")
-o.default = "127.0.0.1#5353"
-o.description = translate("Global DNS Server Fowarder")
-o:depends("dns", 1)
-
-
 gfw_list = s:option(Value, "gfw_list", translate("Self Defined GFW_List"), translate("Please modify the file here."))
 gfw_list.template = "cbi/tvalue"
 gfw_list.rows = 13
