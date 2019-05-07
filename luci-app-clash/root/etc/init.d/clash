@@ -17,8 +17,8 @@ pdnsd_genconfig() {
 
   DNS_SERVER=$(uci get clash.config.dnsserver 2>/dev/null)
   dnsserver_d=$(uci get clash.config.dnsserver_d 2>/dev/null)
-  pdnsd_port=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
-  dnscachee=$(uci get clash.config.dns_server_d |awk -F '#' '{print $2}' 2>/dev/null)
+  pdnsd_port="5353"
+  dnscachee="5333"
 	[ -d /var/etc ] || mkdir -p /var/etc
 
   if [ ! -f /var/dnscache/pdnsd.cache ]; then
@@ -143,7 +143,7 @@ EOF
 
 
 start_pdnsd() {
-  pdnsd_port=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
+  pdnsd_port="5353"
   dnsserver_d=$(uci get clash.config.dnsserver_d 2>/dev/null)
 	local usr_dns="$1"
     local usr_port="$2"
@@ -205,14 +205,13 @@ EOF
 
 
 change_dns(){
-dns_server=$(uci get clash.config.dns_server 2>/dev/null)
-dns_server_d=$(uci get clash.config.dns_server_d 2>/dev/null)
+
 dns_serve1=$(uci get dhcp.@dnsmasq[0].server 2>/dev/null)
 		if [ $dns_serve1 ]; then
 			uci del dhcp.@dnsmasq[-1].server
 		fi		
-		uci add_list dhcp.@dnsmasq[0].server=$dns_server_d	
-		uci add_list dhcp.@dnsmasq[0].server=$dns_server
+		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#5353	
+		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#5333
 		uci delete dhcp.@dnsmasq[0].resolvfile
 		uci set dhcp.@dnsmasq[0].noresolv=1
 		uci commit dhcp
@@ -280,8 +279,8 @@ dns_poisoning() {
     fi
 	
     #start_pdnsd
-    pdnsd_port=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
-    dnscachee=$(uci get clash.config.dns_server_d |awk -F '#' '{print $2}' 2>/dev/null)
+    pdnsd_port="5353"
+    dnscachee="5333"
 	if [ "$dns_model" == "gfw" ]; then
 	   gfw_list_port=`grep google.co.jp /etc/clash/dnsmasq_gfwlist.conf |awk -F '#' '{print $2}'`
 	   if [ "$pdnsd_port" != "$gfw_list_port" ]; then
