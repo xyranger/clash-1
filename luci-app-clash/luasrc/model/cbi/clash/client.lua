@@ -27,10 +27,10 @@ o.rmempty = false
 o.description = translate("Clash config redir-port: 7892")
 
 o = s:option(Value, "dashboard_password")
-o.title = translate("Dashboard Login password")
+o.title = translate("Dashboard Secret")
 o.default = 123456
 o.rmempty = false
-o.description = translate("Dashboard Login password")
+o.description = translate("Dashboard Secret")
 
 o = s:option(Flag, "auto_update", translate("Auto Update"))
 o.rmempty = false

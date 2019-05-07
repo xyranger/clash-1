@@ -122,11 +122,17 @@ msgstr "选择国内上游DNS服务器"
 msgid "DNS Servers located Overseas"
 msgstr "选择国外上游DNS服务器"
 
-msgid "Dashboard Login password"
-msgstr "Dashboard登录密码"
+msgid "Dashboard Secret"
+msgstr "面板秘密"
 
-msgid "self_difined gfw_list"
+msgid "Self Defined GFW_List"
 msgstr "添加自定义GFW地址"
+
+msgid "GFW List Mode"
+msgstr "GFW列表模式"
+
+msgid "Oversea Mode"
+msgstr "海外用户回国模式"
 
 msgid "Please modify the file here."
 msgstr "填写时请按照模板格式"
