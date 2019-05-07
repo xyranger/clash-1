@@ -307,7 +307,12 @@ yml_change(){
 
 	sed -i '/redir-port:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "2i\redir-port: ${proxy_port}" /etc/clash/config.yml
+    
 
+	sed -i '/log-level:/ d' /etc/clash/config.yml 2>/dev/null
+	sed -i "4i\log-level: info" /etc/clash/config.yml
+	sed -i '/fallback:/ d' /etc/clash/config.yml 2>/dev/null
+	
 	da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
 	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "3i\secret: '${da_password}'" /etc/clash/config.yml
