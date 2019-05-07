@@ -271,13 +271,13 @@ dns_poisoning() {
 		local dnsstr=$(uci get clash.config.dnsserver 2>/dev/null)
 		local dnsport=53
 		if [ "$dns_model" == "gfw" ]; then
-			ipset add gfwlist $dnsserver 2>/dev/null
+			ipset add gfwlist $dnsstr 2>/dev/null
 		elif [ "$dns_model" == "oversea" ]; then
-			ipset add oversea $dnsserver 2>/dev/null
+			ipset add oversea $dnsstr 2>/dev/null
 		fi
-		start_pdnsd $dnsserver $dnsport
+		start_pdnsd $dnsstr $dnsport
 		pdnsd_enable_flag=1
-       fi
+    fi
 	
     #start_pdnsd
     pdnsd_port=$(uci get clash.config.dns_server |awk -F '#' '{print $2}' 2>/dev/null)
