@@ -314,7 +314,7 @@ yml_change(){
 	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "3i\secret: '${da_password}'" /etc/clash/config.yml
 
-	grep dns: /etc/clash/config.yml
+	grep dns: /etc/clash/config.yml >/dev/null 2>&1
 	if [ "$?" -ne "0" ]; then
 		 sed -i "/Proxy:/i\dns:" /etc/clash/config.yml
 		 sed -i "/dns:/a\  enable: true" /etc/clash/config.yml
@@ -330,7 +330,7 @@ yml_change(){
 		 sed -i "/dns.rubyfish.cn:853/a\  - tls://1.1.1.1:853" /etc/clash/config.yml
 		 sed -i "/1.1.1.1:853/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
 		 sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml
-    fi
+      fi
   
 	allow_lan=`grep allow-lan: /etc/clash/config.yml |awk -F ' ' '{print $2}'`
 	allow_lan_r=$(echo $allow_lan |tr   [a-z]   [A-Z]) 
@@ -412,7 +412,7 @@ if [ $enable -eq 1 ]; then
 	fi
 	
 	uci set firewall.@defaults[0].flow_offloading=1
-    uci commit firewall
+         uci commit firewall
 	
 	/etc/init.d/firewall restart >/dev/null 2>&1
 
@@ -486,6 +486,6 @@ stop_service(){
 
 restart(){
     stop
-	sleep 3
+    sleep 3
     start
 }
