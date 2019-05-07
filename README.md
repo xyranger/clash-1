@@ -32,10 +32,12 @@ A rule based custom proxy for OpenWrt based on <a href="https://github.com/Dream
 
 <br>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc1.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/1.png" /></div>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc2.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/2.png" /></div>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc3.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/3.png" /></div>
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/opc4.png" /></div>
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/4.png" /></div>
+
+<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/master/preview/5.png" /></div>
