@@ -67,7 +67,7 @@ o.inputtitle = translate("Apply Modify List")
 o.inputstyle = "reload"
 o:depends("dnsmodel", "gfw")
 o.write = function()
-  SYS.call("bash /usr/share/clash/gfw2ipset.sh && /etc/init.d/dnsmasq restart 2>&1")
+  SYS.call("bash /usr/share/clash/gfw2ipset.sh && /etc/init.d/dnsmasq restart >/dev/null 2>&1 &")
 end
 
 o = s:option(Button,"update_gfw")
@@ -76,7 +76,7 @@ o.inputtitle = translate("Update GFW List")
 o.inputstyle = "reload"
 o:depends("dnsmodel", "gfw")
 o.write = function()
-  SYS.call("bash /usr/share/clash/update.sh && /etc/init.d/dnsmasq restart 2>&1")
+  SYS.call("bash /usr/share/clash/update.sh && /etc/init.d/dnsmasq restart >/dev/null 2>&1")
 end
 
 
@@ -85,6 +85,8 @@ local apply = luci.http.formvalue("cbi.apply")
 if apply then
 	os.execute("/etc/init.d/clash restart >/dev/null 2>&1 &")
 end
+
+
 
 
 

@@ -92,8 +92,8 @@ msgstr "自动更新"
 msgid "After clash start running, wait a moment for servers to resolve,enjoy"
 msgstr "运行后，等待服务器传播"
 
-msgid "Clash config redir-port: 7892"
-msgstr "转发端口：7892"
+msgid "Clash config redir-port"
+msgstr "转发端口"
 
 msgid "Domestic DNS Server Fowarder"
 msgstr "国内DNS代理服务器地址"
@@ -124,6 +124,12 @@ msgstr "选择国外上游DNS服务器"
 
 msgid "Dashboard Secret"
 msgstr "管理页面秘密"
+
+msgid "Dashboard hostname is Your router local address. eg, 192.168.1.1"
+msgstr "管理页面主机名是您的路由器本地地址。例如，192.168.1.1"
+
+msgid "Dashboard Port"
+msgstr "管理页面端口"
 
 msgid "Self Defined GFW_List"
 msgstr "添加自定义GFW地址"
