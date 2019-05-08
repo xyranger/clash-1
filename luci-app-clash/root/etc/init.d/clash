@@ -317,7 +317,7 @@ yml_change(){
 
 	sed -i '/log-level:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "4i\log-level: info" /etc/clash/config.yml
-	#sed -i '/fallback:/ d' /etc/clash/config.yml 2>/dev/null
+	sed -i '/fallback:/ d' /etc/clash/config.yml 2>/dev/null
 	
 	da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
 	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
@@ -339,30 +339,7 @@ yml_change(){
 		 sed -i "/fallback:/a\  - tls://dns.rubyfish.cn:853" /etc/clash/config.yml
 		 sed -i "/dns.rubyfish.cn:853/a\  - tls://1.1.1.1:853" /etc/clash/config.yml
 		 sed -i "/1.1.1.1:853/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
-		 sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml
-	 else
-		 if [ $dns -ne 1 ];  then
-			grep fallback: /etc/clash/config.yml
-			if [ "$?" -ne "0" ]; then
-			   sed -i "/Proxy:/i\  fallback:" /etc/clash/config.yml
-			   sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
-			   sed -i "/208.67.222.222:443/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
-			else
-			   grep tcp://208.67.222.222:443 /etc/clash/config.yml
-			   if [ "$?" -ne "0" ]; then
-				  sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
-				  grep tcp://1.1.1.1:53 /etc/clash/config.yml
-				  if [ "$?" -ne "0" ]; then
-					 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
-				  fi
-			   else
-				  grep tcp://1.1.1.1:53 /etc/clash/config.yml
-				  if [ "$?" -ne "0" ]; then
-					 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
-				  fi
-			   fi
-			fi
-		 fi	 
+		 sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml 
     fi
   
 	allow_lan=`grep allow-lan: /etc/clash/config.yml |awk -F ' ' '{print $2}'`
