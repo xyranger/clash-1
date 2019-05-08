@@ -24,7 +24,14 @@ o.title = translate("* Clash Redir Port")
 o.default = 7892
 o.datatype = "port"
 o.rmempty = false
-o.description = translate("Clash config redir-port: 7892")
+o.description = translate("Clash config redir-port")
+
+o = s:option(Value, "cn_port")
+o.title = translate("Dashboard Port")
+o.default = 9090
+o.datatype = "port"
+o.rmempty = false
+o.description = translate("Dashboard hostname is Your router local address. eg, 192.168.1.1")
 
 o = s:option(Value, "dashboard_password")
 o.title = translate("Dashboard Secret")
@@ -55,7 +62,7 @@ o.inputtitle = translate("Update Configuration")
 o.inputstyle = "reload"
 o.write = function()
   os.execute("mv /etc/clash/config.yml /etc/clash/config.bak")
-  SYS.call("bash /usr/share/clash/clash.sh >>/tmp/clash.log 2>&1")
+  SYS.call("bash /usr/share/clash/clash.sh >>/tmp/clash.log 2>&1 &")
   HTTP.redirect(DISP.build_url("admin", "services", "clash"))
 end
 
@@ -64,6 +71,8 @@ local apply = luci.http.formvalue("cbi.apply")
 if apply then
 	os.execute("/etc/init.d/clash restart >/dev/null 2>&1 &")
 end
+
+
 
 
 

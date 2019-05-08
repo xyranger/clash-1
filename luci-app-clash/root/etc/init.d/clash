@@ -321,8 +321,11 @@ yml_change(){
 	
 	da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
 	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
-	sed -i "3i\secret: '${da_password}'" /etc/clash/config.yml
+	sed -i "/dns:/i\secret: '${da_password}'" /etc/clash/config.yml
 	
+	cn_port=$(uci get clash.config.cn_port 2>/dev/null)
+	sed -i '/external-controller:/ d' /etc/clash/config.yml 2>/dev/null
+	sed -i "/secret:/i\external-controller: 0.0.0.0:$cn_port" /etc/clash/config.yml
 	 
 	grep dns: /etc/clash/config.yml >/dev/null 2>&1
 	if [ "$?" -ne "0" ]; then
