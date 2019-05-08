@@ -203,24 +203,24 @@ EOF
 	
 }
 
-
-change_dns(){
+change_dns() {
 dns=$(uci get clash.config.dns 2>/dev/null)
 if [ $dns -eq 1 ];  then
 		pdnsd_port="5353"
 		dnscachee="5333"
+		clash_port="7874"
 		dns_serve1=$(uci get dhcp.@dnsmasq[0].server 2>/dev/null)
 		if [ $dns_serve1 ]; then
 			uci del dhcp.@dnsmasq[-1].server
 		fi		
+		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#$clash_port
 		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#$pdnsd_port	
 		uci add_list dhcp.@dnsmasq[0].server=127.0.0.1#$dnscachee
 		uci delete dhcp.@dnsmasq[0].resolvfile
 		uci set dhcp.@dnsmasq[0].noresolv=1
 		uci commit dhcp
-fi		
+fi	
 }
-
 revert_dns() {
 	uci del dhcp.@dnsmasq[-1].server
 	uci set dhcp.@dnsmasq[0].resolvfile=/tmp/resolv.conf.auto
@@ -273,9 +273,18 @@ dns_poisoning() {
 	local oversea_list=/etc/clash/oversea_list.conf
 	local oversea_list_tmp=$dnsmasq_confdir/oversea_list.conf
 	
-
-	
-    start_pdnsd
+	if [ "$(uci get clash.config.dns 2>/dev/null)" = "1" ] ;then
+		local dnsstr=$(uci get clash.config.dnsserver 2>/dev/null)
+		local dnsport=53
+		if [ "$dns_model" == "gfw" ]; then
+			ipset add gfwlist $dnsstr 2>/dev/null
+		elif [ "$dns_model" == "oversea" ]; then
+			ipset add oversea $dnsstr 2>/dev/null
+		fi
+		start_pdnsd $dnsstr $dnsport
+		pdnsd_enable_flag=1
+    fi
+	#start_pdnsd
     pdnsd_port="5353"
     dnscachee="5333"
 	if [ "$dns_model" == "gfw" ]; then
@@ -308,12 +317,13 @@ yml_change(){
 
 	sed -i '/log-level:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "4i\log-level: info" /etc/clash/config.yml
-	sed -i '/fallback:/ d' /etc/clash/config.yml 2>/dev/null
+	#sed -i '/fallback:/ d' /etc/clash/config.yml 2>/dev/null
 	
 	da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
 	sed -i '/secret:/ d' /etc/clash/config.yml 2>/dev/null
 	sed -i "3i\secret: '${da_password}'" /etc/clash/config.yml
-
+	
+	 
 	grep dns: /etc/clash/config.yml >/dev/null 2>&1
 	if [ "$?" -ne "0" ]; then
 		 sed -i "/Proxy:/i\dns:" /etc/clash/config.yml
@@ -330,7 +340,30 @@ yml_change(){
 		 sed -i "/dns.rubyfish.cn:853/a\  - tls://1.1.1.1:853" /etc/clash/config.yml
 		 sed -i "/1.1.1.1:853/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
 		 sed -i "/208.67.222.222:443/a\  - tls://dns.google" /etc/clash/config.yml
-      fi
+	 else
+		 if [ $dns -ne 1 ];  then
+			grep fallback: /etc/clash/config.yml
+			if [ "$?" -ne "0" ]; then
+			   sed -i "/Proxy:/i\  fallback:" /etc/clash/config.yml
+			   sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
+			   sed -i "/208.67.222.222:443/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+			else
+			   grep tcp://208.67.222.222:443 /etc/clash/config.yml
+			   if [ "$?" -ne "0" ]; then
+				  sed -i "/fallback:/a\  - tcp://208.67.222.222:443" /etc/clash/config.yml
+				  grep tcp://1.1.1.1:53 /etc/clash/config.yml
+				  if [ "$?" -ne "0" ]; then
+					 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+				  fi
+			   else
+				  grep tcp://1.1.1.1:53 /etc/clash/config.yml
+				  if [ "$?" -ne "0" ]; then
+					 sed -i "/fallback:/a\  - tcp://1.1.1.1:53" /etc/clash/config.yml
+				  fi
+			   fi
+			fi
+		 fi	 
+    fi
   
 	allow_lan=`grep allow-lan: /etc/clash/config.yml |awk -F ' ' '{print $2}'`
 	allow_lan_r=$(echo $allow_lan |tr   [a-z]   [A-Z]) 
@@ -345,14 +378,18 @@ yml_dns_change(){
     dns=$(uci get clash.config.dns 2>/dev/null)
 	if [ $dns -eq 1 ];  then
 		dns_port=`grep listen: /etc/clash/config.yml |awk -F ':' '{print $3}' |tr -cd "[0-9]"`
-		if [ $dns_port -ne 53 ]; then
+		if [ $dns_port -ne 7874 ]; then
 			  sed -i '/listen:/ d' /etc/clash/config.yml
-			  sed -i "/nameserver:/i\  listen: 0.0.0.0:53" /etc/clash/config.yml
+			  sed -i "/nameserver:/i\  listen: 0.0.0.0:7874" /etc/clash/config.yml
 		fi
+
 	fi
+	
+	
 	if [ $dns -ne 1 ];  then
 	   dns_port=`grep listen: /etc/clash/config.yml |awk -F ':' '{print $3}' |tr -cd "[0-9]"`
 	   if [ $dns_port -eq 53 ]; then
+		  sed -i '/-127.0.0.1:/ d' /etc/clash/config.yml
 	      sed -i '/listen:/ d' /etc/clash/config.yml
 	      sed -i "/nameserver:/i\  listen: 0.0.0.0:7874" /etc/clash/config.yml
 		  clash_port="7874"
@@ -403,6 +440,7 @@ if [ $enable -eq 1 ]; then
 		procd_close_instance
 		dnsmasq_confdir=$(get_dnsmasq)
 		dns_poisoning
+		change_dns
 	fi
 	  
 	if [ $bbr -eq 1 ];  then
@@ -412,11 +450,11 @@ if [ $enable -eq 1 ]; then
 	fi
 	
 	uci set firewall.@defaults[0].flow_offloading=1
-         uci commit firewall
+    uci commit firewall
 	
 	/etc/init.d/firewall restart >/dev/null 2>&1
 
-	change_dns
+	
 	
     iptables -t nat -N clash
                 
@@ -486,6 +524,6 @@ stop_service(){
 
 restart(){
     stop
-    sleep 3
+	sleep 3
     start
 }
