@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 LUCI_TITLE:=LuCI Support for clash
 LUCI_DEPENDS:=+kmod-ipt-offload +pdnsd-alt +kmod-tcp-bbr @!LINUX_3_18 @!LINUX_4_9
-PKG_VERSION:=0.13.0
+PKG_VERSION:=0.14.0
 
 include $(TOPDIR)/feeds/luci/luci.mk
 

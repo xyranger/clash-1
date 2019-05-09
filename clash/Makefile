@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=clash
-PKG_VERSION:=0.13.0
+PKG_VERSION:=0.14.0
 
 include $(INCLUDE_DIR)/package.mk
 
@@ -41,20 +41,8 @@ define Package/$(PKG_NAME)/install
 ifeq ($(ARCH),mipsel)
 	$(INSTALL_BIN) ./files/mipsle/clash $(1)/etc/clash/
 endif
-ifeq ($(ARCH),mips)
-	$(INSTALL_BIN) ./files/mips64/clash $(1)/etc/clash/
-endif
-ifeq ($(ARCH),i386)
-	$(INSTALL_BIN) ./files/386/clash $(1)/etc/clash/
-endif
 ifeq ($(ARCH),x86_64)
 	$(INSTALL_BIN) ./files/amd64/clash $(1)/etc/clash/
-endif
-ifeq ($(ARCH),arm)
-	$(INSTALL_BIN) ./files/armv6/clash $(1)/etc/clash/
-endif
-ifeq ($(ARCH),aarch64)
-	$(INSTALL_BIN) ./files/armv8/clash $(1)/etc/clash/
 endif
 
 	$(INSTALL_DIR) $(1)/usr/share/clash
