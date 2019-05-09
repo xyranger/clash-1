@@ -274,8 +274,8 @@ dns_poisoning() {
 	local oversea_list_tmp=$dnsmasq_confdir/oversea_list.conf
 	
 	if [ "$(uci get clash.config.dns 2>/dev/null)" = "1" ] ;then
-		local dnsstr=$(uci get clash.config.dnsserver 2>/dev/null)
-		local dnsport=53
+		local dnsstr=$(uci get clash.config.dnsserver)
+		local dnsport="53"
 		if [ "$dns_model" == "gfw" ]; then
 			ipset add gfwlist $dnsstr 2>/dev/null
 		elif [ "$dns_model" == "oversea" ]; then
@@ -451,11 +451,13 @@ if [ $enable -eq 1 ]; then
         
     iptables -t nat -A PREROUTING -p tcp -j clash
 	
+
 	/etc/init.d/dnsmasq restart >/dev/null 2>&1
 	
 	
 	if pidof clash >/dev/null; then
 		add_cron
+		echo "CLASH STARTED SUCCESSFULLY"
 	else
 		echo "CANNOT START"
 	fi
@@ -499,6 +501,8 @@ stop_service(){
     rm -rf /www/clash 2> /dev/null
 	
     del_cron
+	
+	echo "CLASH STOP"
 }
 
 
