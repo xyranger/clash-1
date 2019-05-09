@@ -38,8 +38,6 @@ A rule based custom proxy for OpenWrt based on <a href="https://github.com/Dream
 
 <h3>USE CLASH NAMESERVER DNS TO RESOLVE CLASH</H3> 
 
-<div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/1b.png" /></div>
-
 <div align=center><img src="https://raw.githubusercontent.com/frainzy1477/clash/production/preview/8.png" /></div>
 
 <h3>CONFIG FILE</H3>
