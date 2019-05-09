@@ -435,9 +435,7 @@ if [ $enable -eq 1 ]; then
 	/etc/init.d/firewall restart >/dev/null 2>&1
 
 	
-	
-    iptables -t nat -N clash
-                
+    iptables -t nat -N clash               
     iptables -t nat -A clash -d 0.0.0.0/8 -j RETURN
     iptables -t nat -A clash -d 10.0.0.0/8 -j RETURN
     iptables -t nat -A clash -d 127.0.0.0/8 -j RETURN
@@ -446,10 +444,11 @@ if [ $enable -eq 1 ]; then
     iptables -t nat -A clash -d 192.168.0.0/16 -j RETURN
     iptables -t nat -A clash -d 224.0.0.0/4 -j RETURN
     iptables -t nat -A clash -d 240.0.0.0/4 -j RETURN
-         
-    iptables -t nat -A clash -p tcp -j REDIRECT --to-ports $proxy_port
-        
+	
+	iptables -t nat -A clash -p tcp -j REDIRECT --to-ports $proxy_port 
+	iptables -t nat -A clash -p udp -j REDIRECT --to-ports $proxy_port
     iptables -t nat -A PREROUTING -p tcp -j clash
+	iptables -t nat -A PREROUTING -p udp -j clash
 	
 
 	/etc/init.d/dnsmasq restart >/dev/null 2>&1
