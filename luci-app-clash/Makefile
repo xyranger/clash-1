@@ -5,9 +5,12 @@
 
 include $(TOPDIR)/rules.mk
 
-LUCI_TITLE:=LuCI Support for clash
-LUCI_DEPENDS:=+kmod-ipt-offload +pdnsd-alt +kmod-tcp-bbr @!LINUX_3_18 @!LINUX_4_9
+LUCI_TITLE:=LuCI support for clash
+LUCI_DEPENDS:=+clash +pdnsd-alt +kmod-tcp-bbr +coreutils-nohup
+LUCI_PKGARCH:=all
+PKG_NAME:=luci-app-clash
 PKG_VERSION:=0.14.0
+PKG_RELEASE:=1
 
 include $(TOPDIR)/feeds/luci/luci.mk
 
