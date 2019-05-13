@@ -446,7 +446,7 @@ if [ $enable -eq 1 ]; then
 	/etc/init.d/firewall restart >/dev/null 2>&1
 
 	
-	
+	my_ip=$(uci get network.lan.ipaddr)
 	
    	iptables -t nat -N clash   
     	iptables -t mangle -N clash

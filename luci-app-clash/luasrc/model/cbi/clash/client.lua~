@@ -57,12 +57,27 @@ end
 
 
 
-
-
-local apply = luci.http.formvalue("cbi.apply")
-if apply then
-	os.execute("/etc/init.d/clash restart >/dev/null 2>&1 &")
+o = s:option(Button,"start")
+o.title = translate("Start/Restart")
+o.inputtitle = translate("Start/Restart")
+o.inputstyle = "reload"
+o.write = function()
+  os.execute("/etc/init.d/clash restart >/dev/null 2>&1 &")
+  HTTP.redirect(DISP.build_url("admin", "services", "clash"))
 end
+
+
+
+o = s:option(Button,"stop")
+o.title = translate("Stop Clash")
+o.inputtitle = translate("Stop Clash")
+o.inputstyle = "reload"
+o.write = function()
+  os.execute("/etc/init.d/clash stop >/dev/null 2>&1 &")
+  HTTP.redirect(DISP.build_url("admin", "services", "clash"))
+end
+
+
 
 
 return m

@@ -1,0 +1,12 @@
+#!/bin/sh
+   rule_source=$(uci get clash.config.rule_source 2>/dev/null)
+      if [ $rule_source == "lhie1" ]; then
+         wget-ssl --no-check-certificate https://raw.githubusercontent.com/lhie1/Rules/master/Clash/Rule.yml -O 2>&1 >1 /tmp/clash_rule.yml
+      elif [ $rule_source == "ConnersHua" ]; then
+         wget-ssl --no-check-certificate https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/Global.yml -O 2>&1 >1 /tmp/clash_rule.yml
+      elif [ $rule_source == "ConnersHua_return" ]; then
+         wget-ssl --no-check-certificate https://raw.githubusercontent.com/ConnersHua/Profiles/master/Clash/China.yml -O 2>&1 >1 /tmp/clash_rule.yml
+      fi
+   [ "$?" -eq "0" ] && [ "$rule_source" != 0 ] && {
+   sed -i "/^Rule:$/a\##source:${rule_source}" /tmp/clash_rule.yml
+   }

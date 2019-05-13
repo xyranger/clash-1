@@ -85,7 +85,7 @@ o.inputtitle = translate("Update GFW List")
 o.inputstyle = "reload"
 o:depends("dnsmodel", "gfw")
 o.write = function()
-  SYS.call("bash /usr/share/clash/update.sh && /etc/init.d/dnsmasq restart >/dev/null 2>&1 &")
+  SYS.call("bash /usr/share/clash/update.sh && /etc/init.d/dnsmasq restart >/dev/null 2>&1")
 end
 
 

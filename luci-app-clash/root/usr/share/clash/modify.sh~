@@ -1,0 +1,27 @@
+#!/bin/bash
+mode=$(uci get clash.config.mode 2>/dev/null)
+if [ $mode -eq 1 ];  then
+		da_password=$(uci get clash.config.dashboard_password 2>/dev/null)
+		cn_port=$(uci get clash.config.cn_port 2>/dev/null)
+		proxy_port=$(uci get clash.config.proxy_port 2>/dev/null)
+		sed -i "/Proxy:/i\#clash-openwrt" /etc/clash/config.yml
+                sed -i "/#clash-openwrt/a\#====================================================================================" /etc/clash/config.yml
+		sed -i '1,/#clash-openwrt/d' /etc/clash/config.yml
+		
+		mv /etc/clash/config.yml /etc/clash/dns.yml
+		if [ "$(uci get clash.config.en_mode 2>/dev/null)" = "redns" ]; then
+			cat /usr/share/clash/redns.yml /etc/clash//dns.yml > /etc/clash/config.yml
+		
+		elif [ "$(uci get clash.config.en_mode 2>/dev/null)" = "fakeip" ]; then
+			cat /usr/share/clash/ipdns.yml /etc/clash/dns.yml > /etc/clash/config.yml
+		fi
+		rm -rf /etc/clash/dns.yml
+		sed -i "1i\port: 7890" /etc/clash/config.yml
+		sed -i "2i\socks-port: 7891" /etc/clash/config.yml
+		sed -i "3i\redir-port: ${proxy_port}" /etc/clash/config.yml
+		sed -i "4i\allow-lan: true" /etc/clash/config.yml
+		sed -i "5i\mode: Rule" /etc/clash/config.yml
+		sed -i "6i\log-level: info" /etc/clash/config.yml
+		sed -i "7i\external-controller: 0.0.0.0:${cn_port}" /etc/clash/config.yml
+		sed -i "8i\secret: '${da_password}'" /etc/clash/config.yml
+fi		
