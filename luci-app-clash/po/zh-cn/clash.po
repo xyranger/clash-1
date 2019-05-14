@@ -5,7 +5,7 @@ msgid "clash"
 msgstr "clash"
 
 msgid "Clash Client"
-msgstr "Clash 客户端"
+msgstr "Clash客户端"
 
 msgid "Server Configuration"
 msgstr "配置文件"
@@ -25,6 +25,9 @@ msgstr "模式"
 msgid "Select Mode"
 msgstr "选择模式"
 
+msgid "Do not enable if you do not know how to use it"
+msgstr "如果你不知道怎么使用，请别开了。"
+
 msgid "Enable or Disable mode selection"
 msgstr "启用或禁用选择增模式"
 
@@ -32,35 +35,35 @@ msgid "Mode Selection"
 msgstr "选择模式"
 
 msgid "Enable Clash"
-msgstr "启用 Clash"
+msgstr "启用Clash"
 
 msgid "DNS Server 1"
 msgstr "上游 DNS 服务器(国内)"
 
 msgid "DNS Server 2"
-msgstr "上游 DNS 服务器(国际)"
+msgstr "上游DNS服务器(国际)"
 
 msgid "Enable BBR"
-msgstr "启用 BBR"
+msgstr "启用BBR"
 
 msgid "Bottleneck Bandwidth and Round-trip propagation time (BBR)"
 msgstr ""
 "BBR拥塞控制算法可以加强TCP应用表现，但会降低路由器本机上的WIFI吞吐性能"
 
 msgid "Enable DNS"
-msgstr "启用 DNS 加速"
+msgstr "启用DNS加速"
 
 msgid "DNS Acceleration & Forwarder"
-msgstr "DNS 加速 & 代理"
+msgstr "DNS加速 & 代理"
 
 msgid "DNS Settings"
-msgstr "DNS 设置"
+msgstr "DNS设置"
 
 msgid "Server Config"
 msgstr "服务器配置"
 
 msgid "Upload Clash Configuration"
-msgstr "上传 Clash 配置"
+msgstr "上传Clash配置"
 
 msgid ""
 "NB: Rename your config file to config.yml before upload. file will save to /"
@@ -96,7 +99,7 @@ msgid "Update Configuration"
 msgstr "更新配置文件"
 
 msgid "Update time (every day)"
-msgstr "更新时间 (每天)"
+msgstr "更新时间(每天)"
 
 msgid "Auto Update"
 msgstr "自动更新"
@@ -169,90 +172,3 @@ msgstr "选择DNS解析模式"
 
 msgid "Update GFW List"
 msgstr "更新GFW列表"
-
-msgid "Enable Other Rules"
-msgstr "第三方Clash规则"
-
-msgid "Start/Restart"
-msgstr "启动/重新启动Clash"
-
-msgid "Stop Clash"
-msgstr "停止Clash"
-
-msgid "Custom Rule"
-msgstr "自定义规则"
-
-msgid "Use Other Rules"
-msgstr "选择并下载启用第三方规则"
-
-msgid "Disable Other Rules"
-msgstr "不使用第三方规则"
-
-msgid "lhie1 Rules"
-msgstr "lhie1规则"
-
-msgid "ConnersHua Rules"
-msgstr "ConnersHua规则"
-
-msgid "ConnersHua Return Rules"
-msgstr "ConnersHua回国规则"
-
-msgid "Auto Update Other Rules"
-msgstr "启用第三方规则自动更新"
-
-msgid "Update Time (Every Week)"
-msgstr "更新时间(每周)"
-
-msgid "Every Monday"
-msgstr "每周一"
-
-msgid "Every Tuesday"
-msgstr "每周二"
-
-msgid "Every Wednesday"
-msgstr "每周三"
-
-msgid "Every Thursday"
-msgstr "每周四"
-
-msgid "Every Friday"
-msgstr "每周五"
-
-msgid "Every Saturday"
-msgstr "每周六"
-
-msgid "Every Sunday"
-msgstr "每周日"
-
-msgid "Update Other Rules"
-msgstr "更新第三方规则"
-
-msgid "GlobalTV"
-msgstr "国际流媒体流量"
-
-msgid "AsianTV"
-msgstr "亚洲流媒体流量"
-
-msgid "Proxy"
-msgstr "GFW规则流量"
-
-msgid "Apple"
-msgstr "苹果服务流量"
-
-msgid "AdBlock"
-msgstr "广告流量"
-
-msgid "Domestic"
-msgstr "国内流量"
-
-msgid "Others"
-msgstr "未匹配到规则的流量"
-
-msgid "Choose Proxy Group, Base On Your Servers Group in config.yml"
-msgstr "指定各流量的代理行为，代理组信息来源：config.yml"
-
-msgid "Custom Clash Rules"
-msgstr "设置自定义Clash规则"
-
-msgid "For More Go Github:https://github.com/Dreamacro/clash"
-msgstr "更多信息请前往Github(https://github.com/Dreamacro/clash)查询"
